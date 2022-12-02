@@ -1,0 +1,1054 @@
+definitions:
+  entities.Asset:
+    properties:
+      assetType:
+        type: string
+      demandLoan: {}
+      description:
+        type: string
+      loanTerm: {}
+      media:
+        items:
+          $ref: '#/definitions/entities.AssetMedia'
+        type: array
+    type: object
+  entities.AssetMedia:
+    properties:
+      mimeType:
+        type: string
+      url:
+        type: string
+    type: object
+  entities.Lead:
+    properties:
+      address:
+        type: string
+      birthday:
+        type: string
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      customerId:
+        type: string
+      deletedAt: {}
+      district:
+        type: string
+      email:
+        type: string
+      employeeBy:
+        type: string
+      fullName:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      nationalId:
+        type: string
+      passportId:
+        type: string
+      phone:
+        type: string
+      province:
+        type: string
+      source:
+        type: string
+      storeCode:
+        type: string
+      taxId:
+        type: string
+      type:
+        $ref: '#/definitions/types.SaleOppType'
+      updatedAt:
+        type: string
+      updatedBy:
+        type: string
+    type: object
+  entities.Log:
+    properties:
+      afterAttributes:
+        additionalProperties: true
+        type: object
+      beforeAttributes:
+        additionalProperties: true
+        type: object
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      id:
+        type: string
+      saleOpportunityId:
+        type: string
+    type: object
+  entities.Note:
+    properties:
+      content:
+        type: string
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      deletedAt: {}
+      id:
+        type: string
+      saleOpportunityId:
+        type: string
+      updatedAt:
+        type: string
+      updatedBy:
+        type: string
+    type: object
+  entities.SaleOpportunity:
+    properties:
+      assets:
+        $ref: '#/definitions/entities.Asset'
+      code:
+        type: string
+      contractCode:
+        type: string
+      created:
+        type: string
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      deletedAt: {}
+      disbursedAmount:
+        type: integer
+      disbursedAt:
+        type: string
+      employee:
+        type: string
+      employeeBy:
+        type: string
+      group:
+        $ref: '#/definitions/types.SaleOppGroup'
+      hash:
+        type: string
+      id:
+        type: string
+      lead:
+        allOf:
+        - $ref: '#/definitions/entities.Lead'
+        description: Include data when get sale opportunity
+      leadId:
+        type: string
+      metadata:
+        additionalProperties: true
+        type: object
+      source:
+        type: string
+      source_refs:
+        $ref: '#/definitions/entities.SourceRefs'
+      status:
+        $ref: '#/definitions/types.SaleOppStatus'
+      storeCode:
+        type: string
+      tagData:
+        items:
+          $ref: '#/definitions/entities.Tag'
+        type: array
+      tags:
+        items:
+          type: string
+        type: array
+      type:
+        $ref: '#/definitions/types.SaleOppType'
+      updated:
+        type: string
+      updatedAt:
+        type: string
+      updatedBy:
+        type: string
+    type: object
+  entities.SourceRefs:
+    properties:
+      customerId: {}
+      refId:
+        type: string
+      source:
+        type: string
+    type: object
+  entities.Tag:
+    properties:
+      code:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  services.LeadPagination:
+    properties:
+      limit:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/entities.Lead'
+        type: array
+      skip:
+        type: integer
+      total:
+        type: integer
+    type: object
+  services.NotePagination:
+    properties:
+      limit:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/entities.Note'
+        type: array
+      skip:
+        type: integer
+      total:
+        type: integer
+    type: object
+  services.SaleOpportunityLogsPagination:
+    properties:
+      limit:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/entities.Log'
+        type: array
+      skip:
+        type: integer
+      total:
+        type: integer
+    type: object
+  services.SaleOpportunityPagination:
+    properties:
+      limit:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/entities.SaleOpportunity'
+        type: array
+      skip:
+        type: integer
+      total:
+        type: integer
+    type: object
+  services.StatisticsCommonResponse:
+    properties:
+      code:
+        type: string
+      details:
+        items:
+          properties:
+            data:
+              items:
+                properties:
+                  amount:
+                    type: integer
+                  group:
+                    $ref: '#/definitions/types.SaleOppGroup'
+                  order:
+                    type: integer
+                type: object
+              type: array
+            order:
+              type: integer
+            status:
+              $ref: '#/definitions/types.SaleOppStatus'
+          type: object
+        type: array
+    type: object
+  services.StatisticsEmployeeResponse:
+    properties:
+      code:
+        type: string
+      details:
+        items:
+          properties:
+            data:
+              items:
+                properties:
+                  amount:
+                    type: integer
+                  group:
+                    $ref: '#/definitions/types.SaleOppGroup'
+                  order:
+                    type: integer
+                type: object
+              type: array
+            order:
+              type: integer
+            status:
+              $ref: '#/definitions/types.SaleOppStatus'
+          type: object
+        type: array
+    type: object
+  services.StatisticsIndexResponse:
+    properties:
+      denied:
+        type: integer
+      disbursal:
+        type: integer
+      disbursalAmount:
+        type: integer
+      processing:
+        type: integer
+      total:
+        type: integer
+    type: object
+  types.SaleOppGroup:
+    enum:
+    - OLD
+    - NEW
+    type: string
+    x-enum-varnames:
+    - GroupOld
+    - GroupNew
+  types.SaleOppStatus:
+    enum:
+    - NEW
+    - SUCCESS
+    - PENDING
+    - CONSULTING
+    - DEALT
+    - DENIED
+    - CANCEL
+    - UNCONTACTABLE
+    - created
+    - updated
+    - disbursed
+    type: string
+    x-enum-varnames:
+    - SaleOppStatusNew
+    - SaleOppStatusSuccess
+    - SaleOppStatusPending
+    - SaleOppStatusConsulting
+    - SaleOppStatusDealt
+    - SaleOppStatusDenied
+    - SaleOppStatusCancel
+    - SaleOppStatusUnContactable
+    - FilterDateTypeCreatedAt
+    - FilterDateTypeUpdatedAt
+    - FilterDateTypeDisbursedAt
+  types.SaleOppType:
+    enum:
+    - BORROWER
+    - PARTNER
+    - INVESTMENT
+    type: string
+    x-enum-varnames:
+    - SaleOppTypeBorrower
+    - SaleOppTypePartner
+    - SaleOppTypeInvestment
+  validation.CreateLead:
+    properties:
+      address:
+        type: string
+      birthday:
+        type: string
+      district:
+        type: string
+      email:
+        type: string
+      employeeBy:
+        type: string
+      fullName:
+        type: string
+      gender:
+        type: string
+      nationalId:
+        type: string
+      passportId:
+        type: string
+      phone:
+        type: string
+      province:
+        type: string
+      source:
+        type: string
+      storeCode:
+        type: string
+      taxId:
+        type: string
+      type:
+        $ref: '#/definitions/types.SaleOppType'
+    required:
+    - address
+    - birthday
+    - district
+    - email
+    - employeeBy
+    - fullName
+    - gender
+    - nationalId
+    - passportId
+    - phone
+    - province
+    - source
+    - storeCode
+    - taxId
+    - type
+    type: object
+  validation.CreateNote:
+    properties:
+      content:
+        type: string
+      saleOpportunityId:
+        type: string
+    required:
+    - content
+    - saleOpportunityId
+    type: object
+  validation.CreateSaleOpportunity:
+    properties:
+      assets:
+        $ref: '#/definitions/entities.Asset'
+      employeeBy:
+        type: string
+      group:
+        $ref: '#/definitions/types.SaleOppGroup'
+      leadId:
+        type: string
+      note:
+        type: string
+      source:
+        type: string
+      status:
+        $ref: '#/definitions/types.SaleOppStatus'
+      storeCode:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      type:
+        $ref: '#/definitions/types.SaleOppType'
+    required:
+    - assets
+    - leadId
+    - source
+    - status
+    - type
+    type: object
+  validation.UpdateLead:
+    properties:
+      address:
+        type: string
+      birthday:
+        type: string
+      district:
+        type: string
+      email:
+        type: string
+      employeeBy:
+        type: string
+      fullName:
+        type: string
+      gender:
+        type: string
+      nationalId:
+        type: string
+      passportId:
+        type: string
+      phone:
+        type: string
+      province:
+        type: string
+      source:
+        type: string
+      storeCode:
+        type: string
+      taxId:
+        type: string
+      type:
+        $ref: '#/definitions/types.SaleOppType'
+    required:
+    - fullName
+    type: object
+  validation.UpdateNote:
+    properties:
+      content:
+        type: string
+    type: object
+  validation.UpdateSaleOpportunity:
+    properties:
+      assets:
+        $ref: '#/definitions/entities.Asset'
+      contractCode:
+        type: string
+      employeeBy:
+        type: string
+      group:
+        $ref: '#/definitions/types.SaleOppGroup'
+      leadId:
+        type: string
+      source:
+        type: string
+      status:
+        $ref: '#/definitions/types.SaleOppStatus'
+      storeCode:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      type:
+        $ref: '#/definitions/types.SaleOppType'
+    type: object
+info:
+  contact: {}
+paths:
+  /leads:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: keyword
+        required: true
+        type: string
+      - in: query
+        minimum: 10
+        name: limit
+        type: integer
+      - in: query
+        minimum: 0
+        name: skip
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.LeadPagination'
+      tags:
+      - Lead
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create Lead
+        in: body
+        name: lead
+        required: true
+        schema:
+          $ref: '#/definitions/validation.CreateLead'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Lead'
+      tags:
+      - Lead
+  /leads/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Delete By ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      tags:
+      - Lead
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Find Lead By ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Lead'
+      tags:
+      - Lead
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Update By ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Lead
+        in: body
+        name: lead
+        required: true
+        schema:
+          $ref: '#/definitions/validation.UpdateLead'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Lead'
+      tags:
+      - Lead
+  /notes:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        minimum: 10
+        name: limit
+        type: integer
+      - in: query
+        name: saleOpportunityId
+        required: true
+        type: string
+      - in: query
+        minimum: 0
+        name: skip
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.NotePagination'
+      tags:
+      - Note
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create Note
+        in: body
+        name: Note
+        required: true
+        schema:
+          $ref: '#/definitions/validation.CreateNote'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Note'
+      tags:
+      - Note
+  /notes/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Delete By ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      tags:
+      - Note
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Find Note By Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Note'
+      tags:
+      - Note
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Update By ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Note
+        in: body
+        name: Note
+        required: true
+        schema:
+          $ref: '#/definitions/validation.UpdateNote'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Note'
+      tags:
+      - Note
+  /sale-opportunities:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: code
+        type: string
+      - in: query
+        name: employeeBys
+        type: string
+      - in: query
+        name: filterDateType
+        type: string
+      - in: query
+        name: fromDate
+        type: string
+      - in: query
+        name: groups
+        type: string
+      - in: query
+        items:
+          type: string
+        name: includes
+        type: array
+      - in: query
+        name: lead
+        type: string
+      - in: query
+        minimum: 10
+        name: limit
+        type: integer
+      - in: query
+        name: onlyMe
+        type: boolean
+      - in: query
+        minimum: 0
+        name: skip
+        type: integer
+      - in: query
+        name: sources
+        type: string
+      - in: query
+        name: statuses
+        type: string
+      - in: query
+        name: storeCodes
+        type: string
+      - in: query
+        name: toDate
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.SaleOpportunityPagination'
+      tags:
+      - SaleOpportunity
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create SaleOpportunity
+        in: body
+        name: SaleOpportunity
+        required: true
+        schema:
+          $ref: '#/definitions/validation.CreateSaleOpportunity'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.SaleOpportunity'
+      tags:
+      - SaleOpportunity
+  /sale-opportunities/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Delete By ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      tags:
+      - SaleOpportunity
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Find SaleOpportunity By ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: includes
+        in: query
+        name: includes
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.SaleOpportunity'
+      tags:
+      - SaleOpportunity
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Update By ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update SaleOpportunity
+        in: body
+        name: SaleOpportunity
+        required: true
+        schema:
+          $ref: '#/definitions/validation.UpdateSaleOpportunity'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.SaleOpportunity'
+      tags:
+      - SaleOpportunity
+  /sale-opportunities/{id}/logs:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Get Logs By SaleOpportunity ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - in: query
+        minimum: 10
+        name: limit
+        type: integer
+      - in: query
+        minimum: 0
+        name: skip
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.SaleOpportunityLogsPagination'
+      tags:
+      - SaleOpportunity
+  /statistics/employees:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        items:
+          type: string
+        name: assetTypes
+        type: array
+      - in: query
+        items:
+          type: string
+        name: employeeIds
+        required: true
+        type: array
+      - in: query
+        name: fromDate
+        required: true
+        type: string
+      - in: query
+        items:
+          type: string
+        name: sources
+        type: array
+      - in: query
+        items:
+          type: string
+        name: storeCodes
+        type: array
+      - in: query
+        name: toDate
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/services.StatisticsEmployeeResponse'
+            type: array
+      tags:
+      - Statistics
+  /statistics/index:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        items:
+          type: string
+        name: assetTypes
+        type: array
+      - in: query
+        name: fromDate
+        required: true
+        type: string
+      - in: query
+        items:
+          type: string
+        name: sources
+        type: array
+      - in: query
+        items:
+          type: string
+        name: storeCodes
+        type: array
+      - in: query
+        name: toDate
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.StatisticsIndexResponse'
+      tags:
+      - Statistics
+  /statistics/sources:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        items:
+          type: string
+        name: assetTypes
+        type: array
+      - in: query
+        name: fromDate
+        required: true
+        type: string
+      - in: query
+        items:
+          type: string
+        name: sources
+        type: array
+      - in: query
+        items:
+          type: string
+        name: storeCodes
+        type: array
+      - in: query
+        name: toDate
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/services.StatisticsCommonResponse'
+            type: array
+      tags:
+      - Statistics
+  /statistics/stores:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        items:
+          type: string
+        name: assetTypes
+        type: array
+      - in: query
+        name: fromDate
+        required: true
+        type: string
+      - in: query
+        items:
+          type: string
+        name: sources
+        type: array
+      - in: query
+        items:
+          type: string
+        name: storeCodes
+        type: array
+      - in: query
+        name: toDate
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/services.StatisticsCommonResponse'
+            type: array
+      tags:
+      - Statistics
+  /tags:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.Tag'
+            type: array
+      tags:
+      - Tag
+swagger: "2.0"
